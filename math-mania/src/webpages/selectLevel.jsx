@@ -11,7 +11,7 @@ import Level2Cloud from '../Assets/Level2Cloud.png';
 const SelectLevel = () => {
     return (
         <div>
-            <a href="/MainAppPage">
+            <a href="/">
                 <img src={Arrow} width="10%" className="arrowPadding" />
             </a>
             <div className="App">

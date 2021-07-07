@@ -20,7 +20,7 @@ class App extends Component {
   render() {
     return <Router>
       <Switch>
-        <Route exact path="/MainAppPage" component={MainAppPage} />
+        <Route exact path="/" component={MainAppPage} />
         <Route  exact path="/SelectLevel" component={SelectLevel} />
         <Route exact path="/Level0" component={Level0} />
         <Route exact path="/Level1" component={Level1} />
