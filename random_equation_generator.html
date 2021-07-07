@@ -46,26 +46,30 @@
                 return displayAnswer
             }
 
-            async function answerCheck(userchoice, coinflip){
+            async function answerCheck(userchoice, coinflip, score){
                 if (userchoice == true && coinflip == 1){
                     document.getElementById("userAnswer").innerHTML = 'Correct!';
+                    score = score + 1;
+                    document.getElementById("score").innerHTML = 'Score: ' + score;
                     await sleep(2000);
-                    main();
+                    main(score);
                 }
                 else if (userchoice == false && coinflip == 2){
                     document.getElementById("userAnswer").innerHTML = 'Correct!';
+                    score = score + 1;
+                    document.getElementById("score").innerHTML = 'Score: ' + score;
                     await sleep(2000);
-                    main();
+                    main(score);
                 }
                 else if (userchoice == true && coinflip == 2){
                     document.getElementById("userAnswer").innerHTML = 'Better luck next time!';
                     await sleep(2000);
-                    main();
+                    main(score);
                 }
                 else if (userchoice == false && coinflip == 1){
                     document.getElementById("userAnswer").innerHTML = 'Better luck next time!';
                     await sleep(2000);
-                    main();
+                    main(score);
                 }
             }
 
@@ -73,7 +77,7 @@
                 return new Promise(resolve => setTimeout(resolve, ms));
             }
 
-            function main(){
+            function main(score){
                 
                 // Initialization
                 var operatorInt = 0;
@@ -150,12 +154,12 @@
                 // Input handling
                 document.getElementById("trueButton").addEventListener("click", function() {
                   userchoice = true;
-                  answerCheck(userchoice, coinflip);
+                  answerCheck(userchoice, coinflip, score);
                 });
 
                 document.getElementById("falseButton").addEventListener("click", function() {
                   userchoice = false;
-                  answerCheck(userchoice, coinflip);
+                  answerCheck(userchoice, coinflip, score);
                 });
 
 
@@ -165,7 +169,8 @@
             }
         </script>
     </head>
-    <body onload="main()">
+    <body onload="main(0)">
+        <p id="score"></p>
         <center>
         <p id="question"></p>
         <form> 
