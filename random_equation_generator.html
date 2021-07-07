@@ -21,33 +21,27 @@
             }
 
             function answerSkew(answer, answerSkewInt, answerSkewOperatorInt){
-                var displayAnswer = 0;
-                if (operatorInt == 1){
-                    operator = '+';
-                    answer = number1 + number2;
-                }
-                else if (operatorInt == 2){
-                    operator = '-';
-                    //Checks if the number that is being subtracted from is larger than the number subtracting
-                    if (number1 >= number2){
-                        answer = number1 - number2;
-                    }else{
-                        // Uses memory to swap the vars
-                        memory = number1;
-                        number1 = number2;
-                        number2 = memory;
-                        answer = number1 - number2;
+                var displayAnswer = -0.01;
+                while (decimalCheck(displayAnswer) == true){
+                    while (displayAnswer < 0){
+                        if (answerSkewOperatorInt == 1){
+                            operator = '+';
+                            displayAnswer = answer + answerSkewInt;
+                        }
+                        else if (answerSkewOperatorInt == 2){
+                            operator = '-';
+                            displayAnswer = answer - answerSkewInt;
+                        }
+                        else if (answerSkewOperatorInt == 3){
+                            operator = '*';
+                            displayAnswer = answer * answerSkewInt;
+                        }
+                        else if (answerSkewOperatorInt == 4){
+                            operator = '/';
+                            displayAnswer = answer / answerSkewInt;
+                        }
                     }
                 }
-                else if (operatorInt == 3){
-                    operator = '*';
-                    answer = number1 * number2;
-                }
-                else if (operatorInt == 4){
-                    operator = '/';
-                    answer = number1 / number2;
-                }
-
                 return displayAnswer
             }
 
