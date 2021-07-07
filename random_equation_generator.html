@@ -28,7 +28,7 @@
                 return displayAnswer;
             }
 
-            async function answerCheck(userchoice, coinflip, score, timeUp){
+            async function answerCheck(userchoice, coinflip, score){
                 if (window.timeIsUp == true){
                     document.getElementById("userAnswer").innerHTML = 'Out of Time!';
                     await sleep(2000);
@@ -75,7 +75,7 @@
                 console.log("Time is up countdownTimer()");
                 window.timeIsUp = true;
                 console.log(window.timeIsUp);
-                answerCheck(true, 1, 0, true);
+                answerCheck(true, 1, 0);
             }
 
             function sleep(ms) {
@@ -161,17 +161,15 @@
 
                 // Input handling
                 document.getElementById("trueButton").addEventListener("click", function() {
-                    timeUp = false;
                     userchoice = true;
                     window.killTimer = true;
-                    answerCheck(userchoice, coinflip, score, timeUp);
+                    answerCheck(userchoice, coinflip, score);
                 });
 
                 document.getElementById("falseButton").addEventListener("click", function() {
-                    timeUp = false;
                     userchoice = false;
                     window.killTimer = true;
-                    answerCheck(userchoice, coinflip, score, timeUp);
+                    answerCheck(userchoice, coinflip, score);
                 });
 
 
