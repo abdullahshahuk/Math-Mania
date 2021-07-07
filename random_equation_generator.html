@@ -2,6 +2,8 @@
 <html>
     <head>
         <script type="text/javascript">
+            window.killTimer = false;
+            window.timeIsUp = false;
             /** Generates integers between low (inclusive) and high (exclusive) */
             function generateRandomInteger(low, high) {
                 const lowCeil = Math.ceil(low);
@@ -23,31 +25,16 @@
             function answerSkew(answer, answerSkewInt, answerSkewOperatorInt){
                 var displayAnswer = -0.01;
                 displayAnswer = answer + answerSkewInt;
-                /*while (decimalCheck(displayAnswer) == true){
-                    while (displayAnswer < 0){
-                        if (answerSkewOperatorInt == 1){
-                            operator = '+';
-                            displayAnswer = answer + answerSkewInt;
-                        }
-                        else if (answerSkewOperatorInt == 2){
-                            operator = '-';
-                            displayAnswer = answer - answerSkewInt;
-                        }
-                        else if (answerSkewOperatorInt == 3){
-                            operator = '*';
-                            displayAnswer = answer * answerSkewInt;
-                        }
-                        else if (answerSkewOperatorInt == 4){
-                            operator = '/';
-                            displayAnswer = answer / answerSkewInt;
-                        }
-                    }
-                }*/
                 return displayAnswer
             }
 
-            async function answerCheck(userchoice, coinflip, score){
-                if (userchoice == true && coinflip == 1){
+            async function answerCheck(userchoice, coinflip, score, timeUp){
+                if (window.timeIsUp == true){
+                    document.getElementById("userAnswer").innerHTML = 'Out of Time!';
+                    await sleep(2000);
+                    main(score);
+                }
+                else if (userchoice == true && coinflip == 1){
                     document.getElementById("userAnswer").innerHTML = 'Correct!';
                     score = score + 1;
                     document.getElementById("score").innerHTML = 'Score: ' + score;
@@ -74,8 +61,21 @@
             }
 
             async function countdownTimer(duration){
-                await sleep(duration);
-                return true;
+                var timeRemaining = 0;
+                var timeElapsed = 0;
+                for (var i = 0; i <= duration; i++) {
+                    timeRemaining = duration - timeElapsed;
+                    timeElapsed++;
+                    document.getElementById("timer").innerHTML = timeRemaining + ' seconds remaining.';
+                    await sleep(1000);
+                    if (window.killTimer == true){
+                        return false;
+                    }
+                }
+                console.log("Time is up countdownTimer()");
+                window.timeIsUp = true;
+                console.log(window.timeIsUp)
+                answerCheck(true, 1, 0, true);
             }
 
             function sleep(ms) {
@@ -95,9 +95,12 @@
                 var memory = 0;
 
                 var userchoice;
+                var timeUp;
                 
                 var operator = '';
                 var question = '';
+
+                window.killTimer = false
 
                 document.getElementById("userAnswer").innerHTML = ' ';
 
@@ -158,24 +161,33 @@
 
                 // Input handling
                 document.getElementById("trueButton").addEventListener("click", function() {
-                  userchoice = true;
-                  answerCheck(userchoice, coinflip, score);
+                    timeUp = false;
+                    userchoice = true;
+                    window.killTimer = true;
+                    answerCheck(userchoice, coinflip, score, timeUp);
                 });
 
                 document.getElementById("falseButton").addEventListener("click", function() {
-                  userchoice = false;
-                  answerCheck(userchoice, coinflip, score);
+                    timeUp = false;
+                    userchoice = false;
+                    window.killTimer = true;
+                    answerCheck(userchoice, coinflip, score, timeUp);
                 });
 
 
                 document.getElementById("answer").innerHTML = 'Answer: ' + answer;
                 document.getElementById("coinflip").innerHTML = 'Coinflip: ' + coinflip;
                 document.getElementById("operatorInt").innerHTML = 'Operator Int: ' + operatorInt;
+
+                // IMPLEMENT DIFFICULTY
+                countdownTimer(10)
+
             }
         </script>
     </head>
     <body onload="main(0)">
         <p id="score"></p>
+        <span style="float: right" id="timer">00:00</span>
         <center>
         <p id="question"></p>
         <form> 
