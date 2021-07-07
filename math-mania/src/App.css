@@ -36,3 +36,29 @@
     transform: rotate(360deg);
   }
 }
+
+.mathManiaPadding {
+  padding-top: 15%;
+}
+
+.mathManiaButtonPadding {
+  padding-top: 20%;
+  padding-left: 5%;
+  padding-right: 5%;
+}
+
+.pressStart {
+  padding-top: 5%;
+}
+
+h3 {
+  font-family:Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.levelSelectTitle {
+  padding-top: 3%;
+}
+
+.arrowPadding {
+  padding-left: 2%;
+}
