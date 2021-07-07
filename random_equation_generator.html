@@ -28,6 +28,8 @@
                 var number2 = 0
                 var answer = 0.01
                 var memory = 0
+
+                var userAnswer = ''
                 
                 var operator = ''
                 var question = ''
@@ -71,6 +73,7 @@
                 var question = 'Question: ' + number1 + ' ' + operator + ' ' + number2 + ' = ?'
 
                 document.getElementById("question").innerHTML = question;
+                userAnswer = prompt('What is the answer to ' + question + ': ');
                 document.getElementById("answer").innerHTML = 'Answer: ' + answer;
                 document.getElementById("operatorInt").innerHTML = operatorInt;
             }
