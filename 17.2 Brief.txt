@@ -1,0 +1,25 @@
+Educational charity
+Junior programmer
+
+
+Arithmetic App:
+
+Random + - * / Questions
+
+Numbers 1 to 12
+
+Subtraction can not produce negative numbers
+
+10 questions per game
+
+Should be able to track score.
+
+Three difficulty levels 0, 1, and 2.
+
+Suitable graphics and sounds.
+
+"suitable for multiple devices and considers alternative aspects of the design"
+
+
+
+user requirements, visual designs and technical documentation
