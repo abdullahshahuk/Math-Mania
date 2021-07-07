@@ -46,19 +46,31 @@
                 return displayAnswer
             }
 
-            function answerCheck(userchoice, coinflip){
+            async function answerCheck(userchoice, coinflip){
                 if (userchoice == true && coinflip == 1){
                     document.getElementById("userAnswer").innerHTML = 'Correct!';
+                    await sleep(2000);
+                    main();
                 }
                 else if (userchoice == false && coinflip == 2){
                     document.getElementById("userAnswer").innerHTML = 'Correct!';
+                    await sleep(2000);
+                    main();
                 }
                 else if (userchoice == true && coinflip == 2){
                     document.getElementById("userAnswer").innerHTML = 'Better luck next time!';
+                    await sleep(2000);
+                    main();
                 }
                 else if (userchoice == false && coinflip == 1){
                     document.getElementById("userAnswer").innerHTML = 'Better luck next time!';
+                    await sleep(2000);
+                    main();
                 }
+            }
+
+            function sleep(ms) {
+                return new Promise(resolve => setTimeout(resolve, ms));
             }
 
             function main(){
@@ -77,6 +89,8 @@
                 
                 var operator = '';
                 var question = '';
+
+                document.getElementById("userAnswer").innerHTML = ' ';
 
                 //If the answer contains a decimal a new question is generated
                 while (decimalCheck(answer) == true){
