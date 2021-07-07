@@ -46,6 +46,21 @@
                 return displayAnswer
             }
 
+            function answerCheck(userchoice, coinflip){
+                if (userchoice == true && coinflip == 1){
+                    document.getElementById("userAnswer").innerHTML = 'Correct!';
+                }
+                else if (userchoice == false && coinflip == 2){
+                    document.getElementById("userAnswer").innerHTML = 'Correct!';
+                }
+                else if (userchoice == true && coinflip == 2){
+                    document.getElementById("userAnswer").innerHTML = 'Better luck next time!';
+                }
+                else if (userchoice == false && coinflip == 1){
+                    document.getElementById("userAnswer").innerHTML = 'Better luck next time!';
+                }
+            }
+
             function main(){
                 
                 // Initialization
@@ -121,10 +136,12 @@
                 // Input handling
                 document.getElementById("trueButton").addEventListener("click", function() {
                   userchoice = true;
+                  answerCheck(userchoice, coinflip);
                 });
 
                 document.getElementById("falseButton").addEventListener("click", function() {
                   userchoice = false;
+                  answerCheck(userchoice, coinflip);
                 });
 
 
@@ -141,6 +158,7 @@
             <input type=button id="trueButton" value="True">
             <input type=button id="falseButton" value="False">
         </form>
+        <p id="userAnswer"></p>
         <hr>
         <h3>Debuging stuffs</h3>
         <p id="answer"></p>
