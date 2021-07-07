@@ -1,0 +1,61 @@
+<!Doctype html>
+<html>
+    <head>
+        <script type="text/javascript">
+            /** Generates integers between low (inclusive) and high (exclusive) */
+            function generateRandomInteger(low, high) {
+                const lowCeil = Math.ceil(low);
+                const highFloor = Math.floor(high);
+                const randomFloat = lowCeil + Math.random() * (highFloor - lowCeil);
+
+                return Math.floor(randomFloat);
+            }
+
+            function main(){
+                
+                // Initialization
+                var operatorInt = 0
+                var number1 = 0
+                var number2 = 0
+                var answer = 0
+                
+                var operator = ''
+                var question = ''
+
+                //Generates all required random numbers
+                var operatorInt = generateRandomInteger(1,5);
+                var number1 = generateRandomInteger(1,13);
+                var number2 = generateRandomInteger(1,13);
+
+                // Take the randomly generated 'operatorInt' and use it to assign an operator.
+                if (operatorInt == 1){
+                    operator = '+'
+                    answer = number1 + number2;
+                }
+                else if (operatorInt == 2){
+                    operator = '-'
+                    answer = number1 - number2;
+                }
+                else if (operatorInt == 3){
+                    operator = '*'
+                    answer = number1 * number2;
+                }
+                else if (operatorInt == 4){
+                    operator = '/'
+                    answer = number1 / number2;
+                }
+
+                var question = 'Question: ' + number1 + ' ' + operator + ' ' + number2 + ' = ?'
+
+                document.getElementById("question").innerHTML = question;
+                document.getElementById("answer").innerHTML = 'Answer: ' + answer;
+                document.getElementById("operatorInt").innerHTML = operatorInt;
+            }
+        </script>
+    </head>
+    <body onload="main()">
+        <p id="question"></p>
+        <p id="answer"></p>
+        <p id="operatorInt"></p>
+    </body>
+</html>
