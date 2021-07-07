@@ -66,3 +66,42 @@ h3 {
 .cloudPadding {
   padding-top: 2%;
 }
+
+.whiteScoreQuestion {
+  color: #FFFFFF
+}
+
+.scorePadding {
+  padding-left: 2%;
+}
+
+.TimeCard {
+  padding-top: 11%;
+  padding-left: 14%;
+  padding-right: 8%;
+  color: #020269;
+}
+
+.timePadding {
+  padding-top: 3%;
+}
+
+.equationPadding {
+  padding-top: 30%;
+}
+
+.equationBold {
+  font-weight: 800;
+  font-size: 50px;
+  color: #020269;
+}
+
+.trueFalseCard {
+  padding-top: 20%;
+  padding-left: 2%;
+  padding-right: 2%;
+}
+
+.h2TrueFalse {
+  color: black;
+}
