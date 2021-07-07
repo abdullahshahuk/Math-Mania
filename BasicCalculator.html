@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Basic JavaScript Calculator</title>
+        <style>
+            .answer{
+                font-size: 20px;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            }
+        </style>
+        <script type="text/javascript">
+            function main(){
+                
+                //Input
+                const operator = prompt('Enter your operator: ');
+                const number1 = prompt('Enter your first number: ');
+                const number2 = prompt('Enter your second number: ');
+                
+                // Initialization
+                let answer;
+
+                // Logic
+                if (operator == '+'){
+                    answer = number1 + number2;
+                }
+                else if (operator == '-'){
+                    answer = number1 - number2;
+                }
+                else if (operator == '*'){
+                    answer = number1 * number2;
+                }
+                else if (operator == '/'){
+                    answer = number1 / number2;
+                }
+                else {
+                    alert("Please enter a valid operator.")
+                }
+
+                // Output
+                document.getElementById("answer").innerHTML = answer
+            }
+        </script>
+    </head>
+    <body onload="main()">
+        <p class="answer">Your answer is: <span id="answer">#</span></p>
+    </body>
+</html>
