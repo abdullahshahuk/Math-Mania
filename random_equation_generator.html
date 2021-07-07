@@ -27,6 +27,7 @@
                 var number1 = 0
                 var number2 = 0
                 var answer = 0.01
+                var memory = 0
                 
                 var operator = ''
                 var question = ''
@@ -45,7 +46,17 @@
                     }
                     else if (operatorInt == 2){
                         operator = '-'
-                        answer = number1 - number2;
+
+                        //Checks if the number that is being subtracted from is larger than the number subtracting
+                        if (number1 >= number2){
+                            answer = number1 - number2
+                        }else{
+                            // Uses memory to swap the vars
+                            memory = number1
+                            number1 = number2
+                            number2 = memory
+                            answer = number1 - number2
+                        }
                     }
                     else if (operatorInt == 3){
                         operator = '*'
