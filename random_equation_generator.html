@@ -14,25 +14,59 @@
             // Cool little thing that lets me check for decimals
             function decimalCheck(num){
                 if (num == Math.floor(num)) {
-                    return false
+                    return false;
                 } else {
-                    return true
+                    return true;
                 }
+            }
+
+            function answerSkew(answer, answerSkewInt, answerSkewOperatorInt){
+                var displayAnswer = 0;
+                if (operatorInt == 1){
+                    operator = '+';
+                    answer = number1 + number2;
+                }
+                else if (operatorInt == 2){
+                    operator = '-';
+                    //Checks if the number that is being subtracted from is larger than the number subtracting
+                    if (number1 >= number2){
+                        answer = number1 - number2;
+                    }else{
+                        // Uses memory to swap the vars
+                        memory = number1;
+                        number1 = number2;
+                        number2 = memory;
+                        answer = number1 - number2;
+                    }
+                }
+                else if (operatorInt == 3){
+                    operator = '*';
+                    answer = number1 * number2;
+                }
+                else if (operatorInt == 4){
+                    operator = '/';
+                    answer = number1 / number2;
+                }
+
+                return displayAnswer
             }
 
             function main(){
                 
                 // Initialization
-                var operatorInt = 0
-                var number1 = 0
-                var number2 = 0
-                var answer = 0.01
-                var memory = 0
+                var operatorInt = 0;
+                var correctAnswer = false;
+                var displayAnswer = 0;
+                var coinflip = 0;
+                var number1 = 0;
+                var number2 = 0;
+                var answer = 0.01;
+                var memory = 0;
 
-                var userAnswer = ''
+                var userchoice;
                 
-                var operator = ''
-                var question = ''
+                var operator = '';
+                var question = '';
 
                 //If the answer contains a decimal a new question is generated
                 while (decimalCheck(answer) == true){
@@ -40,48 +74,83 @@
                     var operatorInt = generateRandomInteger(1,5);
                     var number1 = generateRandomInteger(1,13);
                     var number2 = generateRandomInteger(1,13);
+                    var coinflip = generateRandomInteger(1,3);
+
+                    var answerSkewInt = generateRandomInteger(1,13)
+                    var answerSkewOperatorInt = generateRandomInteger(1,5)
 
                     // Take the randomly generated 'operatorInt' and use it to assign an operator.
                     if (operatorInt == 1){
-                        operator = '+'
+                        operator = '+';
                         answer = number1 + number2;
                     }
                     else if (operatorInt == 2){
-                        operator = '-'
+                        operator = '-';
 
                         //Checks if the number that is being subtracted from is larger than the number subtracting
                         if (number1 >= number2){
-                            answer = number1 - number2
+                            answer = number1 - number2;
                         }else{
                             // Uses memory to swap the vars
-                            memory = number1
-                            number1 = number2
-                            number2 = memory
-                            answer = number1 - number2
+                            memory = number1;
+                            number1 = number2;
+                            number2 = memory;
+                            answer = number1 - number2;
                         }
                     }
                     else if (operatorInt == 3){
-                        operator = '*'
+                        operator = '*';
                         answer = number1 * number2;
                     }
                     else if (operatorInt == 4){
-                        operator = '/'
+                        operator = '/';
                         answer = number1 / number2;
                     }
                 }
 
-                var question = 'Question: ' + number1 + ' ' + operator + ' ' + number2 + ' = ?'
+                //Coinflip to decide whether or not the correct answer will be put at the end of the equation
+                if (coinflip == 1){
+                    correctAnswer = true;
+                    displayAnswer = answer;
+                }else{
+                    correctAnswer = false;
+                    displayAnswer = answerSkew(answer, answerSkewInt, answerSkewOperatorInt);
+                }
 
+
+
+                // Procedurally generates the equation
+                var question = 'Question: ' + number1 + ' ' + operator + ' ' + number2 + ' = ' + displayAnswer;
                 document.getElementById("question").innerHTML = question;
-                userAnswer = prompt('What is the answer to ' + question + ': ');
+
+                // Input handling
+                document.getElementById("trueButton").addEventListener("click", function() {
+                  userchoice = true;
+                });
+
+                document.getElementById("falseButton").addEventListener("click", function() {
+                  userchoice = false;
+                });
+
+
                 document.getElementById("answer").innerHTML = 'Answer: ' + answer;
-                document.getElementById("operatorInt").innerHTML = operatorInt;
+                document.getElementById("coinflip").innerHTML = 'Coinflip: ' + coinflip;
+                document.getElementById("operatorInt").innerHTML = 'Operator Int: ' + operatorInt;
             }
         </script>
     </head>
     <body onload="main()">
+        <center>
         <p id="question"></p>
+        <form> 
+            <input type=button id="trueButton" value="True">
+            <input type=button id="falseButton" value="False">
+        </form>
+        <hr>
+        <h3>Debuging stuffs</h3>
         <p id="answer"></p>
+        <p id="coinflip"></p>
         <p id="operatorInt"></p>
+        </center>
     </body>
 </html>
