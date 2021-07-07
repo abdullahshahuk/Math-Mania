@@ -22,7 +22,8 @@
 
             function answerSkew(answer, answerSkewInt, answerSkewOperatorInt){
                 var displayAnswer = -0.01;
-                while (decimalCheck(displayAnswer) == true){
+                displayAnswer = answer + answerSkewInt;
+                /*while (decimalCheck(displayAnswer) == true){
                     while (displayAnswer < 0){
                         if (answerSkewOperatorInt == 1){
                             operator = '+';
@@ -41,7 +42,7 @@
                             displayAnswer = answer / answerSkewInt;
                         }
                     }
-                }
+                }*/
                 return displayAnswer
             }
 
