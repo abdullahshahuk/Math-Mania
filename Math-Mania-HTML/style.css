@@ -76,8 +76,9 @@ h3 {
 }
 
 .whiteScoreQuestion {
-  color: #FFFFFF
-}
+  color: #FFFFFF;
+  font-size: 70px;
+};
 
 .scorePadding {
   padding-left: 2%;
@@ -85,7 +86,7 @@ h3 {
 
 .TimeCard {
   padding-top: 11%;
-  padding-left: 14%;
+  padding-left: 8%;
   padding-right: 8%;
   color: #020269;
 }
@@ -95,21 +96,91 @@ h3 {
 }
 
 .equationPadding {
-  padding-top: 30%;
+  padding-top: 20%;
 }
 
 .equationBold {
-  font-weight: 800;
-  font-size: 50px;
+  font-weight: 900;
+  font-size: 120px;
   color: #020269;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
 .trueFalseCard {
-  padding-top: 20%;
+  padding-top: 10%;
   padding-left: 2%;
   padding-right: 2%;
 }
 
 .h2TrueFalse {
   color: black;
+}
+
+.startToPress {
+  font-size: 40px;
+}
+
+.card {
+  transition: 0.3s;
+  background-color: #020269;
+  border-radius: 120%;
+  height: 100%;
+  width: 100%;
+}
+
+.timeCardStlying {
+  transition: 0.3s;
+  background-color: #FFFFFF;
+  height: 100%;
+  width: 100%;
+}
+
+.column {
+  float: left;
+  width: 50%;
+  padding: 10px;
+}
+
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.timeStlying {
+    font-size: 50px;
+}
+
+.trueButton {
+      background-color: #4CAF50;
+      border: none;
+      color: white;
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      width: 300px;
+      height: 400px; 
+      font-size: 60px;
+}
+
+.falseButton {
+  background-color: #ff5f5f;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  width: 300px;
+  height: 400px; 
+  font-size: 60px;
+}
+
+.buttonWhiteText {
+  color: white;
 }

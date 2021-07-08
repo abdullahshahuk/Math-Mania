@@ -2,7 +2,11 @@
 <html>
     <head>
         <link rel="stylesheet" href="style.css">
-        <link rel="stylesheet" href="">
+        <style>
+            * {
+              box-sizing: border-box;
+            }  
+        </style>
         <script type="text/javascript">
             var correctsnd = new Audio("./assets/correct.mp3"); // buffers automatically when created
 
@@ -35,9 +39,8 @@
             async function answerCheck(userchoice, coinflip, score, questionNumber){
                 if (window.timeIsUp == true){
                     document.getElementById("userAnswer").innerHTML = 'Out of Time!';
-                    questionNumber++;
+                    questionNumber = questionNumber + 1;
                     await sleep(2000);
-                    sessionStorage.setItem("score", score);
                     main(score, questionNumber);
                 }
                 else if (userchoice == true && coinflip == 1){
@@ -47,7 +50,6 @@
                     document.getElementById("score").innerHTML = 'Score: ' + score;
                     questionNumber++;
                     await sleep(2000);
-                    sessionStorage.setItem("score", score);
                     main(score, questionNumber);
                 }
                 else if (userchoice == false && coinflip == 2){
@@ -57,21 +59,18 @@
                     document.getElementById("score").innerHTML = 'Score: ' + score;
                     questionNumber++;
                     await sleep(2000);
-                    sessionStorage.setItem("score", score);
                     main(score, questionNumber);
                 }
                 else if (userchoice == true && coinflip == 2){
                     document.getElementById("userAnswer").innerHTML = 'Better luck next time!';
                     questionNumber++;
                     await sleep(2000);
-                    sessionStorage.setItem("score", score);
                     main(score, questionNumber);
                 }
                 else if (userchoice == false && coinflip == 1){
                     document.getElementById("userAnswer").innerHTML = 'Better luck next time!';
                     questionNumber++;
                     await sleep(2000);
-                    sessionStorage.setItem("score", score);
                     main(score, questionNumber);
                 }
             }
@@ -191,9 +190,9 @@
                     });
 
 
-                    document.getElementById("answer").innerHTML = 'Answer: ' + answer;
-                    document.getElementById("coinflip").innerHTML = 'Coinflip: ' + coinflip;
-                    document.getElementById("operatorInt").innerHTML = 'Operator Int: ' + operatorInt;
+                    //document.getElementById("answer").innerHTML = 'Answer: ' + answer;
+                    //document.getElementById("coinflip").innerHTML = 'Coinflip: ' + coinflip;
+                    //document.getElementById("operatorInt").innerHTML = 'Operator Int: ' + operatorInt;
                     document.getElementById("questionNumber").innerHTML = 'Question Number: ' + questionNumber;
 
                     document.getElementById("levelNumber").innerHTML = 'Level: ' + sessionStorage.getItem("currentLevel");
@@ -208,7 +207,7 @@
                         countdownTimer(10);
                     }
                 }else{
-                    window.location.href = "test.html";
+                    window.location.href = "./Pages/LevelSelect.html";
                 }
             }
         </script>
@@ -217,7 +216,54 @@
         <audio id="correctAudio">
             <source src="./Assets/correct.mp3" type="audio/mp3">
             Your browser does not support the audio element.
-          </audio>
+        </audio>
+        <div>
+            <a href="../Pages/LevelSelect.html">
+            <img src="../Assets/arrow.png" width="10%" class="arrowPadding"/>
+            </a>
+    
+            <div>
+                <div class="row">
+                    <div class="column" ><h1 class="whiteScoreQuestion scorePadding" id="score">Score: 3</h1></div>
+                    <div class="column" ><h1 class="whiteScoreQuestion" id="questionNumber">Question: 3/10</h1></div>
+                </div>
+            </div>
+    
+            <div class="App TimeCard">
+                <card>
+                    <div class="timePadding">
+                        <div class="timeCardStlying">
+                        <h1 class="timeStlying" id="timer">Endless Time Mode</h1>
+                    </div>
+                    </div>
+                </card>
+            </div>
+    
+            <div class="App">
+                <div class="equationPadding">
+                    <h1 class="equationBold" id="question">3 × 6 = 18?</h1>
+                </div>
+            </div>
+    
+            <div class="App">
+                <div class="trueFalseCard">
+                    <div class="row">
+                        <div class="column"><button class="trueButton" id="trueButton" value="True"><h2 class="h2TrueFalse buttonWhiteText">True</h2></button></div>
+                        <div class="column"><button class="falseButton" id="falseButton" value="False"><h2 class="h2TrueFalse buttonWhiteText">False</h2></button></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <p id="userAnswer"></p>
+        <p id="answer"></p>
+        <p id="levelNumber"></p>
+        <p id="coinflip"></p>
+        <p id="operatorInt"></p>
+        <p id="demo"></p>
+        <!--<audio id="correctAudio">
+            <source src="./Assets/correct.mp3" type="audio/mp3">
+            Your browser does not support the audio element.
+        </audio>
         <h1 id="questionNumber">Question 1/10</h1>
         <p id="score"></p>
         <p style="float: right" id="timer"></p>
@@ -235,6 +281,6 @@
         <p id="operatorInt"></p>
         <p id="levelNumber"></p>
         <p id="demo"></p>
-        </center>
+        </center>-->
     </body>
 </html>
