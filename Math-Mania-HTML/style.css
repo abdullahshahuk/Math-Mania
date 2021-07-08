@@ -1,3 +1,11 @@
+body, html{
+  height: 100%;
+  background-image: url(./Assets/backgroundCloud.jpg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
 .App {
   text-align: center;
 }
