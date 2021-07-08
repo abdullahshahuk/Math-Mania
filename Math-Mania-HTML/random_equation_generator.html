@@ -4,6 +4,8 @@
         <link rel="stylesheet" href="style.css">
         <link rel="stylesheet" href="">
         <script type="text/javascript">
+            var correctsnd = new Audio("./assets/correct.mp3"); // buffers automatically when created
+
             window.killTimer = false;
             window.timeIsUp = false;
             /** Generates integers between low (inclusive) and high (exclusive) */
@@ -30,35 +32,47 @@
                 return displayAnswer;
             }
 
-            async function answerCheck(userchoice, coinflip, score){
+            async function answerCheck(userchoice, coinflip, score, questionNumber){
                 if (window.timeIsUp == true){
                     document.getElementById("userAnswer").innerHTML = 'Out of Time!';
+                    questionNumber++;
                     await sleep(2000);
-                    main(score);
+                    sessionStorage.setItem("score", score);
+                    main(score, questionNumber);
                 }
                 else if (userchoice == true && coinflip == 1){
                     document.getElementById("userAnswer").innerHTML = 'Correct!';
+                    correctsnd.play();
                     score = score + 1;
                     document.getElementById("score").innerHTML = 'Score: ' + score;
+                    questionNumber++;
                     await sleep(2000);
-                    main(score);
+                    sessionStorage.setItem("score", score);
+                    main(score, questionNumber);
                 }
                 else if (userchoice == false && coinflip == 2){
                     document.getElementById("userAnswer").innerHTML = 'Correct!';
+                    correctsnd.play();
                     score = score + 1;
                     document.getElementById("score").innerHTML = 'Score: ' + score;
+                    questionNumber++;
                     await sleep(2000);
-                    main(score);
+                    sessionStorage.setItem("score", score);
+                    main(score, questionNumber);
                 }
                 else if (userchoice == true && coinflip == 2){
                     document.getElementById("userAnswer").innerHTML = 'Better luck next time!';
+                    questionNumber++;
                     await sleep(2000);
-                    main(score);
+                    sessionStorage.setItem("score", score);
+                    main(score, questionNumber);
                 }
                 else if (userchoice == false && coinflip == 1){
                     document.getElementById("userAnswer").innerHTML = 'Better luck next time!';
+                    questionNumber++;
                     await sleep(2000);
-                    main(score);
+                    sessionStorage.setItem("score", score);
+                    main(score, questionNumber);
                 }
             }
 
@@ -84,11 +98,12 @@
                 return new Promise(resolve => setTimeout(resolve, ms));
             }
 
-            function main(score){
+            function main(score, questionNumber){
                 
                 // Initialization
                 var operatorInt = 0;
                 var correctAnswer = false;
+                var currentLevel = 0;
                 var displayAnswer = 0;
                 var coinflip = 0;
                 var number1 = 0;
@@ -106,97 +121,106 @@
 
                 document.getElementById("userAnswer").innerHTML = ' ';
 
-                //If the answer contains a decimal a new question is generated
-                while (decimalCheck(answer) == true){
-                    //Generates all required random numbers
-                    var operatorInt = generateRandomInteger(1,5);
-                    var number1 = generateRandomInteger(1,13);
-                    var number2 = generateRandomInteger(1,13);
-                    var coinflip = generateRandomInteger(1,3);
+                if (questionNumber <= 10){
+                    //If the answer contains a decimal a new question is generated
+                    while (decimalCheck(answer) == true){
+                        //Generates all required random numbers
+                        var operatorInt = generateRandomInteger(1,5);
+                        var number1 = generateRandomInteger(1,13);
+                        var number2 = generateRandomInteger(1,13);
+                        var coinflip = generateRandomInteger(1,3);
 
-                    var answerSkewInt = generateRandomInteger(1,13);
-                    var answerSkewOperatorInt = generateRandomInteger(1,5);
+                        var answerSkewInt = generateRandomInteger(1,13);
+                        var answerSkewOperatorInt = generateRandomInteger(1,5);
 
-                    // Take the randomly generated 'operatorInt' and use it to assign an operator.
-                    if (operatorInt == 1){
-                        operator = '+';
-                        answer = number1 + number2;
-                    }
-                    else if (operatorInt == 2){
-                        operator = '-';
+                        // Take the randomly generated 'operatorInt' and use it to assign an operator.
+                        if (operatorInt == 1){
+                            operator = '+';
+                            answer = number1 + number2;
+                        }
+                        else if (operatorInt == 2){
+                            operator = '-';
 
-                        //Checks if the number that is being subtracted from is larger than the number subtracting
-                        if (number1 >= number2){
-                            answer = number1 - number2;
-                        }else{
-                            // Uses memory to swap the vars
-                            memory = number1;
-                            number1 = number2;
-                            number2 = memory;
-                            answer = number1 - number2;
+                            //Checks if the number that is being subtracted from is larger than the number subtracting
+                            if (number1 >= number2){
+                                answer = number1 - number2;
+                            }else{
+                                // Uses memory to swap the vars
+                                memory = number1;
+                                number1 = number2;
+                                number2 = memory;
+                                answer = number1 - number2;
+                            }
+                        }
+                        else if (operatorInt == 3){
+                            operator = '*';
+                            answer = number1 * number2;
+                        }
+                        else if (operatorInt == 4){
+                            operator = '/';
+                            answer = number1 / number2;
                         }
                     }
-                    else if (operatorInt == 3){
-                        operator = '*';
-                        answer = number1 * number2;
-                    }
-                    else if (operatorInt == 4){
-                        operator = '/';
-                        answer = number1 / number2;
-                    }
-                }
 
-                //Coinflip to decide whether or not the correct answer will be put at the end of the equation
-                if (coinflip == 1){
-                    correctAnswer = true;
-                    displayAnswer = answer;
+                    //Coinflip to decide whether or not the correct answer will be put at the end of the equation
+                    if (coinflip == 1){
+                        correctAnswer = true;
+                        displayAnswer = answer;
+                    }else{
+                        correctAnswer = false;
+                        displayAnswer = answerSkew(answer, answerSkewInt, answerSkewOperatorInt);
+                    }
+
+
+
+                    // Procedurally generates the equation
+                    var question = 'Question: ' + number1 + ' ' + operator + ' ' + number2 + ' = ' + displayAnswer;
+                    document.getElementById("question").innerHTML = question;
+
+                    // Input handling
+                    document.getElementById("trueButton").addEventListener("click", function() {
+                        userchoice = true;
+                        window.killTimer = true;
+                        answerCheck(userchoice, coinflip, score, questionNumber);
+                    });
+
+                    document.getElementById("falseButton").addEventListener("click", function() {
+                        userchoice = false;
+                        window.killTimer = true;
+                        answerCheck(userchoice, coinflip, score, questionNumber);
+                    });
+
+
+                    document.getElementById("answer").innerHTML = 'Answer: ' + answer;
+                    document.getElementById("coinflip").innerHTML = 'Coinflip: ' + coinflip;
+                    document.getElementById("operatorInt").innerHTML = 'Operator Int: ' + operatorInt;
+                    document.getElementById("questionNumber").innerHTML = 'Question Number: ' + questionNumber;
+
+                    document.getElementById("levelNumber").innerHTML = 'Level: ' + sessionStorage.getItem("currentLevel");
+                    currentLevel = sessionStorage.getItem("currentLevel");
+                    console.log(currentLevel);
+
+                    // DIFFICULTY
+                    if (currentLevel == 0){
+                    }else if (currentLevel == 1){
+                        countdownTimer(20);
+                    }else if (currentLevel == 2){
+                        countdownTimer(10);
+                    }
                 }else{
-                    correctAnswer = false;
-                    displayAnswer = answerSkew(answer, answerSkewInt, answerSkewOperatorInt);
+                    window.location.href = "test.html";
                 }
-
-
-
-                // Procedurally generates the equation
-                var question = 'Question: ' + number1 + ' ' + operator + ' ' + number2 + ' = ' + displayAnswer;
-                document.getElementById("question").innerHTML = question;
-
-                // Input handling
-                document.getElementById("trueButton").addEventListener("click", function() {
-                    userchoice = true;
-                    window.killTimer = true;
-                    answerCheck(userchoice, coinflip, score);
-                });
-
-                document.getElementById("falseButton").addEventListener("click", function() {
-                    userchoice = false;
-                    window.killTimer = true;
-                    answerCheck(userchoice, coinflip, score);
-                });
-
-
-                document.getElementById("answer").innerHTML = 'Answer: ' + answer;
-                document.getElementById("coinflip").innerHTML = 'Coinflip: ' + coinflip;
-                document.getElementById("operatorInt").innerHTML = 'Operator Int: ' + operatorInt;
-
-                document.getElementById("demo").innerHTML = "The full URL of this page is:<br>" + window.location.href;
-
-                // IMPLEMENT DIFFICULTY
-                if (currentLevel == 0){
-
-                }else if (currentLevel == 1){
-                    countdownTimer(10);
-                }else if (currentLevel == 2){
-                    countdownTimer(10);
-                }
-                    
-
             }
         </script>
     </head>
-    <body onload="main(0)">
+    <body onload="main(0, 1)">
+        <audio id="correctAudio">
+            <source src="./Assets/correct.mp3" type="audio/mp3">
+            Your browser does not support the audio element.
+          </audio>
+        <h1 id="questionNumber">Question 1/10</h1>
         <p id="score"></p>
-        <span style="float: right" id="timer">00:00</span>
+        <p style="float: right" id="timer"></p>
         <center>
         <p id="question"></p>
         <form> 
@@ -209,6 +233,7 @@
         <p id="answer"></p>
         <p id="coinflip"></p>
         <p id="operatorInt"></p>
+        <p id="levelNumber"></p>
         <p id="demo"></p>
         </center>
     </body>

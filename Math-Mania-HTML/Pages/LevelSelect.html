@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="../style.css">
+    <script>
+
+        function loadLevelZero() {
+            sessionStorage.setItem("currentLevel", 0);
+            window.location.href = "../random_equation_generator.html";
+        }
+    
+        function loadLevelOne() {
+            sessionStorage.setItem("currentLevel", 1);
+            window.location.href = "../random_equation_generator.html";
+        }
+    
+        function loadLevelTwo() {
+            sessionStorage.setItem("currentLevel", 2);
+            window.location.href = "../random_equation_generator.html";
+        }
+    </script>
+</head>
+
+<body>
+
+    <div>
+        <a href="Home.html">
+            <img src="../Assets/arrow.png" width="10%" class="arrowPadding" />
+        </a>
+        <div class="App">
+            <div class="levelSelectTitle">
+                <img src="../Assets/LevelSelectTitle.png" width="100%"/>
+            </div>
+            <div>
+                <div class="cloudPadding">
+                    <a onclick="loadLevelZero()">
+                        <img src="../Assets/Level0Cloud.png" width="70%" />
+                    </a>
+                </div>
+
+                <div class="cloudPadding">
+                    <a onclick="loadLevelOne()">
+                        <img src="../Assets/Level1Cloud.png" width="70%"/>
+                    </a>
+                </div>
+
+                <div class="cloudPadding">
+                    <a onclick="loadLevelTwo()">
+                        <img src="../Assets/Level2Cloud.png" width="70%"/>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

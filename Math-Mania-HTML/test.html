@@ -1,0 +1,20 @@
+<script>
+
+    function loadLevelZero() {
+        sessionStorage.setItem("currentLevel", 0);
+        window.location.href = "random_equation_generator.html";
+    }
+
+    function loadLevelOne() {
+        sessionStorage.setItem("currentLevel", 1);
+        window.location.href = "random_equation_generator.html";
+    }
+
+    function loadLevelTwo() {
+        sessionStorage.setItem("currentLevel", 2);
+        window.location.href = "random_equation_generator.html";
+    }
+</script>
+<button onclick="loadLevelZero()">Level 0</button>
+<button onclick="loadLevelOne()">Level 1</button>
+<button onclick="loadLevelTwo()">Level 2</button>
