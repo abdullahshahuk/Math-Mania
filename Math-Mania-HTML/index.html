@@ -70,6 +70,7 @@
         }
 
         function questionGen(){
+            window.killTimer = false;
             if (currentQuestion <= 10){
                 while (decimalCheck(window.answer) == true){
 
@@ -89,6 +90,16 @@
                     document.getElementById("levelNumber").innerHTML = 'Level: ' + sessionStorage.getItem("currentLevel");
                     currentLevel = sessionStorage.getItem("currentLevel");
                 }
+                // DIFFICULTY
+                if (currentLevel == 0){
+                }else if (currentLevel == 1){
+                        countdownTimer(20);
+                }else if (currentLevel == 2){
+                        countdownTimer(10);
+                }
+            }
+            else{
+                window.location.href = "./Pages/LevelSelect.html";
             }
         }
 
@@ -98,6 +109,7 @@
                 window.currentQuestion = window.currentQuestion + 1;
                 console.log(window.score);
                 window.answer = 0.01;
+                window.killTimer = true;
                 questionGen();
             }
             else if (window.userChoice == true && window.coinflip == 1) {
@@ -108,6 +120,7 @@
                 window.currentQuestion = window.currentQuestion + 1;
                 console.log(score);
                 window.answer = 0.01;
+                window.killTimer = true;
                 questionGen();
             }
             else if (window.userChoice == false && window.coinflip == 2) {
@@ -118,6 +131,7 @@
                 window.currentQuestion = window.currentQuestion + 1;
                 console.log(score);
                 window.answer = 0.01;
+                window.killTimer = true;
                 questionGen();
             }
             else if (window.userChoice == true && window.coinflip == 2) {
@@ -125,6 +139,7 @@
                 window.currentQuestion = window.currentQuestion + 1;
                 console.log(window.score);
                 window.answer = 0.01;
+                window.killTimer = true;
                 questionGen();
             }
             else if (window.userChoice == false && window.coinflip == 1) {
@@ -132,17 +147,20 @@
                 window.currentQuestion = window.currentQuestion + 1;
                 console.log(window.score);
                 window.answer = 0.01;
+                window.killTimer = true;
                 questionGen();
             }
         }
 
         function trueClick(){
             window.userChoice = true;
+            window.killTimer = true;
             answerCheck();
         }
 
         function falseClick(){
             window.userChoice = false;
+            window.killTimer = true;
             answerCheck();
         }
 
@@ -159,6 +177,29 @@
                 answerSkew();
                 console.log("Display Answer: " + displayAnswer)
             }
+        }
+
+        async function countdownTimer(duration){
+            var timeRemaining = 0;
+            var timeElapsed = 0;
+            //while (window.killTimer == false && duration >= i){}
+            for (var i = 0; i <= duration; i++) {
+                timeRemaining = duration - timeElapsed;
+                timeElapsed++;
+                document.getElementById("timer").innerHTML = timeRemaining + ' seconds remaining.';
+                await sleep(1000);
+                if (window.killTimer == true){
+                    return false;
+                }
+            }
+            console.log("Time is up countdownTimer()");
+            window.timeIsUp = true;
+            console.log(window.timeIsUp);
+            answerCheck();
+        }
+
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
         }
 
         function setup(){
@@ -193,6 +234,8 @@
             questionGen();
             console.log("End")
         }
+
+        
     </script>
 </head>
 
@@ -246,9 +289,9 @@
             </div>
         </div>
     </div>
-    <p id="userAnswer"></p>
+    <h1 id="userAnswer"></h1>
     <p id="answer"></p>
-    <p id="levelNumber"></p>
+    <h1 id="levelNumber"></h1>
     <p id="coinflip"></p>
     <p id="operatorInt"></p>
     <p id="demo"></p>
