@@ -1,0 +1,256 @@
+<!Doctype html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+    </style>
+    <script type="text/javascript">
+
+        /** Generates integers between low (inclusive) and high (exclusive) */
+        function generateRandomInteger(low, high) {
+            const lowCeil = Math.ceil(low);
+            const highFloor = Math.floor(high);
+            const randomFloat = lowCeil + Math.random() * (highFloor - lowCeil);
+
+            return Math.floor(randomFloat);
+        }
+
+        // Cool little thing that lets me check for decimals
+        function decimalCheck(num) {
+            if (num == Math.floor(num)) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+        function answerSkew() {
+            window.displayAnswer = -0.01;
+            window.answerSkewInt = generateRandomInteger(1,13)
+            window.displayAnswer = window.answer + window.answerSkewInt;
+        }
+
+        function operatorGen(){
+            // Take the randomly generated 'operatorInt' and use it to assign an operator.
+            if (window.operatorInt == 1) {
+                window.operator = '+';
+                window.answer = window.number1 + window.number2;
+            }
+
+            else if (window.operatorInt == 2) {
+                window.operator = '-';
+
+                //Checks if the number that is being subtracted from is larger than the number subtracting
+                if (window.number1 >= window.number2) {
+                    window.answer = window.number1 - window.number2;
+                }
+
+                else {
+                    // Uses memory to swap the vars
+                    window.memory = window.number1;
+                    window.number1 = window.number2;
+                    window.number2 = window.memory;
+                    window.answer = window.number1 - window.number2;
+                }
+            }
+
+            else if (window.operatorInt == 3) {
+                window.operator = '*';
+                window.answer = window.number1 * window.number2;
+            }
+
+            else if (window.operatorInt == 4) {
+                window.operator = '/';
+                window.answer = window.number1 / window.number2;
+            }
+        }
+
+        function questionGen(){
+            if (currentQuestion <= 10){
+                while (decimalCheck(window.answer) == true){
+
+                    window.operatorInt = generateRandomInteger(1, 5);
+                    window.number1 = generateRandomInteger(1, 13);
+                    window.number2 = generateRandomInteger(1, 13);
+
+                    operatorGen();
+
+                    coinFlip();     
+                    
+                    // Procedurally generates the equation
+                    window.question = 'Question: ' + number1 + ' ' + operator + ' ' + number2 + ' = ' + displayAnswer;
+                    console.log(window.question);
+                    document.getElementById("question").innerHTML = window.question;
+                    document.getElementById("currentQuestion").innerHTML = 'Question Number: ' + currentQuestion;
+                    document.getElementById("levelNumber").innerHTML = 'Level: ' + sessionStorage.getItem("currentLevel");
+                    currentLevel = sessionStorage.getItem("currentLevel");
+                }
+            }
+        }
+
+        function answerCheck(){
+            if (window.timeIsUp == true) {
+                document.getElementById("userAnswer").innerHTML = 'Out of Time!';
+                window.currentQuestion = window.currentQuestion + 1;
+                console.log(window.score);
+                window.answer = 0.01;
+                questionGen();
+            }
+            else if (window.userChoice == true && window.coinflip == 1) {
+                document.getElementById("userAnswer").innerHTML = 'Correct!';
+                window.correctsnd.play();
+                window.score = window.score + 1;
+                document.getElementById("score").innerHTML = 'Score: ' + window.score;
+                window.currentQuestion = window.currentQuestion + 1;
+                console.log(score);
+                window.answer = 0.01;
+                questionGen();
+            }
+            else if (window.userChoice == false && window.coinflip == 2) {
+                document.getElementById("userAnswer").innerHTML = 'Correct!';
+                window.correctsnd.play();
+                window.score = window.score + 1;
+                document.getElementById("score").innerHTML = 'Score: ' + window.score;
+                window.currentQuestion = window.currentQuestion + 1;
+                console.log(score);
+                window.answer = 0.01;
+                questionGen();
+            }
+            else if (window.userChoice == true && window.coinflip == 2) {
+                document.getElementById("userAnswer").innerHTML = 'Better luck next time!';
+                window.currentQuestion = window.currentQuestion + 1;
+                console.log(window.score);
+                window.answer = 0.01;
+                questionGen();
+            }
+            else if (window.userChoice == false && window.coinflip == 1) {
+                document.getElementById("userAnswer").innerHTML = 'Better luck next time!';
+                window.currentQuestion = window.currentQuestion + 1;
+                console.log(window.score);
+                window.answer = 0.01;
+                questionGen();
+            }
+        }
+
+        function trueClick(){
+            window.userChoice = true;
+            answerCheck();
+        }
+
+        function falseClick(){
+            window.userChoice = false;
+            answerCheck();
+        }
+
+        function coinFlip(){
+            window.coinflip = generateRandomInteger(1, 3);
+            if (window.coinflip == 1) {
+                window.correctAnswer = true;
+                window.displayAnswer = answer;
+                console.log("Coinflip: " + window.coinflip)
+                console.log("Display Answer: " + displayAnswer)
+            } else {
+                console.log("Coinflip: " + window.coinflip)
+                window.correctAnswer = false;
+                answerSkew();
+                console.log("Display Answer: " + displayAnswer)
+            }
+        }
+
+        function setup(){
+            window.correctsnd = new Audio("./assets/correct.mp3");
+            window.currentQuestion = 0;
+            window.correctAnswer = false;
+            window.userChoice = false;
+            window.displayAnswer = 0;
+            window.currentLevel = 0;
+            window.coinflip = 0;
+            window.score = 0;
+
+            window.countdownLength = 0;
+            window.killTimer = false;
+            window.timeIsUp = false;
+
+            window.operatorInt = 0;
+            window.operator = '+';
+            window.number1 = 0;
+            window.number2 = 0;
+            window.memory = 0;
+            window.question = '';
+            window.answer = 0.01;
+
+            window.answerSkewInt = 0;
+            console.log("Setup complete")
+        }
+
+        function main(){
+            console.log("Start")
+            setup();
+            questionGen();
+            console.log("End")
+        }
+    </script>
+</head>
+
+<body onload="main()">
+    <audio id="correctAudio">
+        <source src="./Assets/correct.mp3" type="audio/mp3">
+        Your browser does not support the audio element.
+    </audio>
+    <div>
+        <a href="./Pages/LevelSelect.html">
+            <img src="./Assets/arrow.png" width="10%" class="arrowPadding" />
+        </a>
+
+        <div>
+            <div class="row">
+                <div class="column">
+                    <h1 class="whiteScoreQuestion scorePadding" id="score">Score: 0</h1>
+                </div>
+                <div class="column">
+                    <h1 class="whiteScoreQuestion" id="currentQuestion">Question: 0/10</h1>
+                </div>
+            </div>
+        </div>
+
+        <div class="App TimeCard">
+            <card>
+                <div class="timePadding">
+                    <div class="timeCardStlying">
+                        <h1 class="timeStlying" id="timer">Endless Time Mode</h1>
+                    </div>
+                </div>
+            </card>
+        </div>
+
+        <div class="App">
+            <div class="equationPadding">
+                <h1 class="equationBold" id="question">3 × 6 = 18?</h1>
+            </div>
+        </div>
+
+        <div class="App">
+            <div class="trueFalseCard">
+                <div class="row">
+                    <div class="column"><button class="trueButton" id="trueButton" onclick="trueClick()"value="True">
+                            <h2 class="h2TrueFalse buttonWhiteText">True</h2>
+                        </button></div>
+                    <div class="column"><button class="falseButton" id="falseButton" onclick="falseClick()" value="False">
+                            <h2 class="h2TrueFalse buttonWhiteText">False</h2>
+                        </button></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <p id="userAnswer"></p>
+    <p id="answer"></p>
+    <p id="levelNumber"></p>
+    <p id="coinflip"></p>
+    <p id="operatorInt"></p>
+    <p id="demo"></p>
+</body>
+</html>
